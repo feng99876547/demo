@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="ehcache.xsd" updateCheck="false" >
+	<!-- 设置timeToLiveSeconds必须要设置diskExpiryThreadIntervalSeconds定时清理  -->
+
+    <defaultCache
+            maxElementsInMemory="2000"
+            memoryStoreEvictionPolicy="LRU" 
+            eternal="false"
+            timeToIdleSeconds="120"
+            timeToLiveSeconds="0"
+            overflowToDisk="false"
+            diskPersistent="false"
+            diskExpiryThreadIntervalSeconds="300"
+            />
+    <cache 
+		name="all" 
+		maxElementsInMemory="10000" 
+		memoryStoreEvictionPolicy="LRU" 
+		timeToIdleSeconds="300"
+        timeToLiveSeconds="0"
+		overflowToDisk="true"
+        diskPersistent="false"
+        maxElementsOnDisk="30000"
+        diskExpiryThreadIntervalSeconds="450" />     
+     <cache 
+		name="amount" 
+		maxElementsInMemory="10000" 
+		memoryStoreEvictionPolicy="LFU" 
+		timeToIdleSeconds="180"
+        timeToLiveSeconds="600"
+		overflowToDisk="false"
+        diskPersistent="false"
+        diskExpiryThreadIntervalSeconds="180" /> 
+    <!-- 菜单缓存 --> 
+    <cache 
+		name="menu" 
+		memoryStoreEvictionPolicy="LFU" 
+		maxElementsInMemory="300" 
+		copyOnWrite="true"
+		copyOnRead = "true"
+		eternal="true"
+		overflowToDisk="false" />  
+	<!-- 权限集合 -->
+	<cache 
+		name="permissions" 
+		memoryStoreEvictionPolicy="LFU" 
+		maxElementsInMemory="800" 
+		eternal="true"
+		overflowToDisk="false" />
+	<cache 
+		name="roles" 
+		memoryStoreEvictionPolicy="LFU" 
+		maxElementsInMemory="2000" 
+		eternal="true"
+		overflowToDisk="false" />
+		
+
+		
+</ehcache>

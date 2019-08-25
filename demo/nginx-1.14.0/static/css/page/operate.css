@@ -1,0 +1,26 @@
+/**
+*在选择器里
+*#开头的表示的id选择器
+*.开头的表示的是类名选择器
+*类名选择器的优先级要低于id选择器
+*但是通常我们不使用id选择器，id通常是为JS而预留的
+*<style>
+*    .con {
+*        color: #39f;
+*    }
+*    #con {
+*        background-color: #f00;
+*    }
+*</style>
+*<div class="con">HTML5 学堂</div>
+*<div id="con">原创技术文章</div>
+*类名与标签的class属性对应
+*id名与标签的id属性对应
+*/
+
+
+
+.operate_btn{
+	padding-left: 5px;
+	padding-right: 5px;
+}

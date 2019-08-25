@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<link rel="stylesheet" type="text/css" href="../easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="../easyui/themes/icon.css">
+<link rel="stylesheet" type="text/css" href="../easyui/demo.css"> 
+<link rel="stylesheet" type="text/css" href="../css/page/operate.css"> 
+<link rel="stylesheet" type="text/css" href="../css/model/initSrarch.css"> 
+<link rel="stylesheet" type="text/css" href="../css/easyui/datagrid.css">
+
+
+
+<script type="text/javascript" src="../js/params.js"></script>
+
+<script type="text/javascript" src="../easyui/jquery.min.js"></script>
+<script type="text/javascript" src="../easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../js/frame/frame.js"></script>
+<script type="text/javascript" src="../js/frame/ajax.js"></script>
+<script type="text/javascript" src="../js/jquery/jquery.cookie-1.4.0.js"></script>
+<script type="text/javascript" src="../js/jquery/jquery.form.js"></script>
+<script type="text/javascript" src="../js/jquery/myserializeJson.js"></script>
+<script type="text/javascript" src="../js/jquery/jquery-validation/1.11.1/jquery.validate.min.js"></script>
+<script type="text/javascript">
+if(window.top != window.self){
+	window.top.location.href = host+'/index.html';
+}
+var menusJson = null;
+
+var menuPermission = {};
+
+var original_id = 0;
+
+function getId(){
+	return original_id++;
+}
+
+function permissionyz(){
+	return $.cookie("USERID") == '1' ? true : false;
+}
+
+$(document).ready(function() {
+	FXC.AJAX(_webApp+'/admin/login.do',null,function(result){
+		menusJson = result;
+		initMenu();
+		initTab();
+	});
+});
+
+</script>
+
+
+<script type="text/javascript" src="../js/frame/menu.js"></script>
+<script type="text/javascript" src="../js/model/initSrarch.js"></script>
+<script type="text/javascript" src="../js/model/common.js"></script>
+<script type="text/javascript" src="../js/model/getLayoutGrid.js"></script>
+<script type="text/javascript" src="../js/model/modelupbutton.js"></script>
+<script type="text/javascript" src="../js/model/communal/shoppstype.js"></script>
+<script type="text/javascript" src="../js/model/communal/dialog.js"></script>
+<script type="text/javascript" src="../js/model/eleResize.js"></script>
+<script type="text/javascript" src="../js/util/util.js"></script>
+<script type="text/javascript" src="../js/util/easyUi.js"></script>
+<script type="text/javascript" src="../js/util/msgbox.js"></script>
+
+</head>
+<body id = "main" >
+<div class="easyui-layout"  data-options="fit:true">
+<!--     <div data-options="region:'south',title:'South Title',split:true" style="height:100px;"></div>
+    <div data-options="region:'east',title:'East',split:true" style="width:100px;"></div> -->
+    
+    <div id="header" data-options="region:'north',split:true" style="height:70px;overflow:hidden;">
+    	<ul>
+			<li>欢迎您：<i class="fa fa-home"></i><a href="javascript:addTab('tab_0','../account','账户设置');"></a></li>
+			<li><i class="fa fa-sign-out"></i><a href="javascript:logout();">注销</a></li>
+		</ul>
+    </div>
+    
+    <div id = "main_left" data-options="region:'west',title:'导航菜单',split:true" style="width:130px;">
+	   	<!--左边菜单-->
+		<div id="menu" class="easyui-accordion" fit="true" border="false" style="text-align: center;"></div>
+    </div>
+    
+    <div id = "main_right" data-options="region:'center'" style="padding:5px;background:#eee;">
+    	<div id="tab" >
+		    <div title="首页" >
+		    </div>
+    	</div>
+    </div>
+    
+    <div id="dialog_logout" class="none">
+		<p>您确定要退出系统吗？</p>
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,4 @@
+﻿2019/08/07 23:04:22 [emerg] 4912#5240: invalid event type "epoll" in D:\Nginx\nginx-1.14.0/conf/nginx.conf:12
+2019/08/07 23:10:38 [notice] 4076#2144: signal process started
+2019/08/07 23:29:02 [emerg] 4504#2852: unknown directive "if($host!='localhost')" in D:\Nginx\nginx-1.14.0/conf/gps.conf:11
+2019/08/07 23:30:56 [emerg] 7004#6908: unknown "host!='localhost'" variable

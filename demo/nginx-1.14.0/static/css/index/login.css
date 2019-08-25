@@ -1,0 +1,36 @@
+@CHARSET "UTF-8";
+body
+{
+    font-size: 12px;
+    font-family: "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
+    color: #232323;
+    background-color: #00785d;
+    padding:0px;
+    margin:0px;
+}
+img
+{
+    border:0px
+}
+body,html,form{
+	height:100%;
+	width:100%;
+	overflow: hidden;
+}
+.loginbox{
+	width:1142px;
+	height:660px;
+	margin:auto;
+	/*background-image:url(../images/loginbg.jpg);*/
+}
+.inputbox{
+	border:0px;
+	background: transparent;
+	width:250px;
+}
+.loginbtn{
+	width:97px;height:35px;border:0px;background-image:url(../images/btnlogin.png);float:left
+}
+.indexbtn{
+	width:97px;height:35px;border:0px;background-image:url(../images/btnindex.png);display:block;float:left;margin-left:10px
+}

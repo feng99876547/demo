@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+	<form method="post">
+		<input type="hidden" name="id"></input>
+		<table>
+			<tr>
+				<td class="field" >名字:</td>
+				<td><input type="text" class="easyui-combobox" name="student.id" ></input></td>
+			</tr>
+			<tr>
+				<td class="field">档案凭证:</td>
+				<td>
+					<input type="text" readonly="readonly" name="pzh">
+					<div data-type="uploadImage" data-url="/upload/image.do" data-container="filemanagementHTMl_upload"></div>
+				</td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

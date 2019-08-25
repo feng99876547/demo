@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+	<form method="post">
+		<input type="hidden" name="id"></input>
+		<table>
+			<tr>
+				<td class="field">账号:</td>
+				<td><input type="text" name="loginName"></input></td>
+			</tr>
+			<tr>
+				<td class="field">密码:</td>
+				<td>初始密码123456</td>
+			</tr>
+			<tr>
+				<td class="field">名字:</td>
+				<td><input type="text" name="name"></input></td>
+			</tr>
+ 			
+			<tr>
+				<td class="field">电话:</td>
+				<td><input name="cellPhone"></input></td>
+			</tr>
+			<tr>
+				<td class="field">状态：</td>
+				<td>
+					<label><input name="status" type="radio" value="5"  />可用</label>
+					<label><input name="status" type="radio" value="10" checked />不可用 </label>
+				</td>
+			</tr>
+			<tr>
+				<td class="field">备注:</td>
+				<td><textarea name="remarks"></textarea></td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

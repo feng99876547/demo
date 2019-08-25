@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="../easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="../easyui/themes/icon.css">
+<link rel="stylesheet" type="text/css" href="../easyui/demo.css"> 
+<link rel="stylesheet" type="text/css" href="../css/page/operate.css"> 
+<link rel="stylesheet" type="text/css" href="../css/model/initSrarch.css"> 
+
+<script type="text/javascript" src="../js/params.js"></script>
+
+<script type="text/javascript" src="../easyui/jquery.min.js"></script>
+<script type="text/javascript" src="../easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../js/frame/frame.js"></script>
+<script type="text/javascript" src="../js/model/initSrarch.js"></script>
+<script type="text/javascript" src="../js/frame/ajax.js"></script>
+<script type="text/javascript" src="../js/jquery/jquery.cookie-1.4.0.js"></script>
+<script type="text/javascript" src="../js/jquery/myserializeJson.js"></script>
+</head>
+<script type="text/javascript">
+            $.ajax({
+            type : 'post',
+            async:false,
+            url: 'http://120.79.239.126/tsgl/login/begin.do',
+            dataType : 'json',
+            data: {},
+            success : function(result){
+                console.log(result)
+                
+            },
+            error:function(data){
+                var result = data.responseJSON;
+                if(result && result.msg=="1001"){
+                    top.location.href=host+'/index.html';
+                }else{
+                    alert('请求出现异常!');
+                }
+            }
+        });
+
+</script>
+<body>
+    <div id="page2"></div>
+    <script>
+          $("#page2").load("form.html");
+    </script>
+
+    <form id="upload_form" enctype="multipart/form-data" action="upload_deal.do" method="post">
+        <input class="easyui-filebox" style="width:300px" data-options='onChange:change_photo' id="file_upload" name="file_upload2"/><br/> 
+        <input type="submit" value="提交" /> <br/>
+    </form>
+    <div id="Imgdiv">
+        <img id="Img" width="200px" height="200px"/>
+    </div>
+
+</body>
+</html>

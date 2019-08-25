@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd 
+						http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd 
+						http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd ">
+	<mvc:annotation-driven />						
+	<!-- 默认注解支持 -->
+	<context:component-scan base-package="com.*">  
+    <!-- 将Service注解给去掉  -->  
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>  
+    </context:component-scan>
+   <context:annotation-config />
+   
+   <!-- 这边定义aspectj  controller层才能被拦截 -->
+   <aop:aspectj-autoproxy proxy-target-class="true" />
+   
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp"/> 
+	</bean>
+	
+<!-- 	<mvc:resources mapping="/common/**" location="/common/"/>
+	<mvc:resources mapping="/js/**" location="/js/"/>
+	<mvc:resources mapping="/css/**" location="/css/"/>
+	<mvc:resources mapping="/content/**" location="/content/" />
+	<mvc:resources mapping="/upload/**" location="/upload/" />
+	<mvc:resources mapping="/img/**" location="/img/" /> -->
+	
+	<mvc:default-servlet-handler/>
+	
+	<bean class="com.sjb.interceptor.ExceptionHandler">
+<!--  		<property name="defaultErrorView">
+			<value>/error/error</value>
+		</property>
+		<property name="defaultStatusCode">
+			<value>500</value>
+		</property>
+		<property name="warnLogCategory">
+			<value>org.springframework.web.servlet.handler.SimpleMappingExceptionResolver</value>
+		</property> -->
+	</bean>
+	<mvc:interceptors>
+		<bean id="szInterceptor" class="com.sjb.interceptor.Interceptor">
+			<!-- 下次还是加.do过滤吧 
+			<property name="resourceUrl">
+				<list>
+					<value>js</value>
+					<value>css</value>
+					<value>jsp</value>
+					<value>png</value>
+					<value>jpg</value>
+					<value>gif</value>
+					<value>jpeg</value>
+					<value>woff</value>
+					<value>ico</value>
+					<value>eot</value>
+					<value>map</value>
+				</list>
+			</property> -->
+			<!--不需要权限验证路径-->
+			<property name="excludeUrl">
+				<list>
+					<value>/login/*</value>
+<!-- 				<value>/admin/login</value>
+					<value>/user/login</value> -->
+				</list>
+			</property>
+		</bean>
+	</mvc:interceptors>  
+	
+	<!-- SpringMVC上传文件时，需要配置MultipartResolver处理器 --> 
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" > 
+		<property name="maxUploadSize" value="10000000"/> 
+	</bean> 
+	<!-- 指定所上传文件的总大小不能超过350KB。注意maxUploadSize属性的限制不是针对单个文件，而是所有文件的容量之和 
+	--> 
+	
+	<!-- SpringMVC在超出上传文件限制时，会抛出org.springframework.web.multipart.MaxUploadSizeExceededException --> 
+	<!-- 该异常是SpringMVC在检查上传的文件信息时抛出来的，而且此时还没有进入到Controller方法中 --> 
+	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver"> 
+	<property name="exceptionMappings"> 
+		<props> 
+			<!-- 遇到MaxUploadSizeExceededException异常时，自动跳转到/WEB-INF/jsp/error_fileupload.jsp页面 --> 
+			<prop key="org.springframework.web.multipart.MaxUploadSizeExceededException">/error_fileupload</prop> 
+		</props> 
+	</property> 
+	</bean> 
+</beans>

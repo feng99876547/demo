@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:jee="http://www.springframework.org/schema/jee"
+    xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:task="http://www.springframework.org/schema/task"
+    xmlns:redisson="http://redisson.org/schema/redisson"
+    xmlns:cache="http://www.springframework.org/schema/cache"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+    http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+    http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.2.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+    http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.1.xsd
+    http://redisson.org/schema/redisson http://redisson.org/schema/redisson/redisson.xsd
+    http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+    <context:property-placeholder location="classpath*:*.properties" />
+    
+    
+    <context:component-scan base-package="com.*">
+       <!--  <context:exclude-filter type="annotation"  expression="org.springframework.stereotype.Controller" />   -->
+    </context:component-scan>
+    
+    
+	 <bean id="transactionManager"  class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+    
+    <!-- 数据库映射 -->
+    <!--  class="org.apache.tomcat.dbcp.dbcp.BasicDataSource" -->
+ <!--   <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+      <property name="driverClassName" value="${jdbc.driverClassName}" />
+      <property name="url" value="${jdbc.url}" />
+      <property name="username" value="${jdbc.user}" />
+      <property name="password" value="${jdbc.pass}" />
+   </bean> -->
+   
+     <bean id="dataSource" class="org.logicalcobwebs.proxool.ProxoolDataSource">
+	    <property name="driver" value="${jdbc.driverClassName}" />
+	    <property name="driverUrl" value="${jdbc.url}" />
+	    <property name="user" value="${jdbc.user}" />
+	    <property name="password" value="${jdbc.pass}" />
+	    <property name="alias" value="Pool_dbname" />
+	    <property name="houseKeepingSleepTime" value="90000" />
+	    <property name="prototypeCount" value="0" />
+	    <!-- 最大链接数 -->
+	    <property name="maximumConnectionCount" value="150" />
+	    <property name="minimumConnectionCount" value="20" />
+	    <!-- 支持的线程数量 -->
+	    <property name="simultaneousBuildThrottle" value="700" />
+	    <property name="maximumConnectionLifetime" value="14400000" />
+	    <property name="houseKeepingTestSql" value="select CURRENT_DATE" />
+	</bean> 
+   
+   <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<constructor-arg ref="dataSource"/>
+   </bean>
+   
+	
+    <tx:annotation-driven transaction-manager="transactionManager"/> 
+    
+    <!-- 声明式容器事务通知-->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="add*" propagation="REQUIRED" rollback-for="Exception" />
+            <tx:method name="del*" propagation="REQUIRED" rollback-for="Exception"/>
+            <tx:method name="update*" propagation="REQUIRED" rollback-for="Exception"/>
+            <tx:method name="get*" propagation="SUPPORTS" read-only="true" />
+        </tx:attributes>
+    </tx:advice> 
+
+  	<!-- 这边定义aspectj  sercice层才能被拦截 -->
+	<aop:aspectj-autoproxy proxy-target-class="true" /> 
+	
+	<!-- spring 切面不包含父类 -->
+   	<aop:config> 
+        <aop:pointcut id="transactionPointCut" expression="(execution(* com.sjb.service..*.impl..*.*(..))) or 
+        (execution(* com.sjb.service..*.*(..))) or (execution(* com.fxc.admin.jdbc.service.jdbc..*.*(..))) "/> 
+        <aop:advisor pointcut-ref="transactionPointCut" advice-ref="txAdvice"/> 
+    </aop:config> 
+      
+    <bean id="contextUtils" class="com.fxc.utils.ContextUtils" /> 
+    
+	
+	<bean id="stringRedisSerializer" class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+    
+    <bean id="genericJackson2JsonRedisSerializer" class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer" />
+     
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxTotal" value="100" />
+		<property name="maxIdle" value="10" />
+		<property name="testOnBorrow" value="true" />
+	</bean>
+	
+	<!-- 由redis负责接管Session，如果原来web.xml里配置的Session超时时间就会失效  -->
+	<bean id="redisHttpSessionConfiguration" class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">
+        <property name="maxInactiveIntervalInSeconds" value="1800"/>
+    </bean>
+	
+	 <bean id="jedisConnectionFactory"
+		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+		destroy-method="destroy">
+		<property name="hostName" value="127.0.0.1" />
+		<property name="port" value="6379" />
+		<!--连接的数据库 默认有15个数据库 -->
+		<property name="database" value="0" />
+		<property name="timeout" value="3000" />
+		<property name="usePool" value="true" />
+		<property name="password" value="12345678"/> 
+		<property name="poolConfig" ref="jedisPoolConfig" />
+	</bean>
+
+ 	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+		<property name="connectionFactory" ref="jedisConnectionFactory" />
+		
+		 <property name="keySerializer" ref="stringRedisSerializer"/>
+			 
+		<property name="valueSerializer" ref="genericJackson2JsonRedisSerializer"/>
+		
+		<property name="enableTransactionSupport" value="false"></property> 
+	</bean> 
+	
+    <cache:annotation-driven/>
+    
+    <bean id = "cacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
+		<constructor-arg index="0" ref="redisTemplate"></constructor-arg>
+	</bean> 
+	
+<!-- ======================================================================================================================================== -->
+	
+	<bean id = "businesProcessorImpl" class="com.fxc.business.BusinesProcessorImpl"></bean>
+	
+	<bean id = "businesImpl" class="com.fxc.business.BusinesImpl">
+		<property name="businesProcessor" ref="businesProcessorImpl" />
+	</bean>
+	
+	<bean id = "ehCachePublicServiceJdbcGetTest" class="com.sjb.service.cache.EhCachePublicServiceJdbcGetTest"></bean>
+	
+<!-- 	<bean id = "businessDispatchImpl" class="com.fxc.business.businessDispatchImpl">
+		<property name="map">
+			<map>
+				 <entry key="cache" value-ref="" value="businesImpl" />
+				 <entry key="busines" value-ref="ehCachePublicServiceJdbcGetTest" />
+			</map>
+		</property>
+	</bean> -->
+	
+	<bean id = "publicServiceJdbcAdd" class="com.fxc.admin.jdbc.service.jdbc.PublicServiceJdbcAdd"></bean>
+	<bean id = "publicServiceJdbcDel" class="com.fxc.admin.jdbc.service.jdbc.PublicServiceJdbcDel"></bean>
+	<bean id = "publicServiceJdbcUpdate" class="com.fxc.admin.jdbc.service.jdbc.PublicServiceJdbcUpdate"></bean>
+	<bean id = "publicServiceJdbcGet" class="com.fxc.admin.jdbc.service.jdbc.PublicServiceJdbcGet"></bean>
+	
+<!-- 	<bean id = "cachePublicServiceJdbcDel" class="com.fxc.admin.jdbc.service.jdbc.CachePublicServiceJdbcDel"></bean>
+	<bean id = "cachepublicServiceJdbcUpdate" class="com.fxc.admin.jdbc.service.jdbc.CachepublicServiceJdbcUpdate"></bean>
+	<bean id = "ehCachePublicServiceJdbcGet" class="com.sjb.service.cache.EhCachePublicServiceJdbcGet"></bean>
+	<bean id = "redisPublicServiceJdbcGet" class="com.sjb.service.cache.RedisPublicServiceJdbcGet"></bean>
+	使用本地缓存 
+ 	<bean id = "cacheService" class="com.sjb.service.CacheService">
+		<property name="jcbcAdd" ref="publicServiceJdbcAdd" />
+		<property name="jcbcDel" ref="cachePublicServiceJdbcDel" />
+		<property name="jcbcUpdate" ref="cachepublicServiceJdbcUpdate" />
+		<property name="jcbcGet" ref="ehCachePublicServiceJdbcGet" />
+	</bean> -->
+	
+	<!-- 使用redis缓存  -->
+<!--  	<bean id = "cacheService" class="com.sjb.service.RedisCacheService">
+		<property name="jcbcAdd" ref="publicServiceJdbcAdd" />
+		<property name="jcbcDel" ref="cachePublicServiceJdbcDel" />
+		<property name="jcbcUpdate" ref="cachepublicServiceJdbcUpdate" />
+		<property name="jcbcGet" ref="redisPublicServiceJdbcGet" />
+	</bean> -->
+	
+</beans>

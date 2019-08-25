@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>无标题文档</title>
+</head>
+
+<script>
+	FXC={};
+	FXC.util={};
+FXC.util.addEventListener=function(element,type,handler){
+    if(element.addEventListener){
+        element.addEventListener(type,handler,false);
+    }
+    else if(element.attachEvent){
+        element.attachEvent('on'+type,handler);
+    }
+    else{
+        element["on"+type]=handler /*直接赋给事件*/
+    }
+};
+    
+FXC.util.removeEventListener = function(element,type,handler) {   /*Chrome*/
+    if (element.removeEventListener)
+        element.removeEventListener(type, handler, false);
+    else if (element.deattachEvent) {               /*IE*/
+        element.deattachEvent('on' + type, handler);
+    }
+    else {
+        element["on" + type] = null;
+    }
+};
+/**
+封装该方法是为了添加匿名函数后可以删除 所以只适用于匿名函数添加监听 非匿名函数请使用addEventListener和removeEventListener
+addAnonymousListener 和 removeAnonymousEvent 是一套对应使用的
+obj 指向的dom对象
+ev  事件名称(代替函数名用)
+fn  匿名函数
+boolean false 代表匿名函数 true代表传入的是非匿名函数
+*/
+function addAnonymousListener(obj,ev,fn){
+	var func = function(){        //将函数专为匿名函数并改变this指向 低版本ie下的必然操作  标准下如此操作没有副作用
+		fn.apply(obj,arguments);
+	};
+	obj.funByEv = obj.funByEv || {} 
+	obj.funByEv[ev] = obj.funByEv[ev] || [];
+	obj.funByEv[ev].push(func);
+	FXC.util.addEventListener(obj,ev,func);
+}
+	
+function removeAnonymousEvent(obj,ev){
+	var len = obj.funByEv[ev];
+	if(obj.funByEv[ev].length>0){
+		//这边使用的是先进先出的规则 最先添加的同名监听会先被删除
+		FXC.util.removeEventListener(obj,ev,obj.funByEv[ev][0]);
+		console.log("删除("+ev+")匿名函数监听成功");
+		delete obj.funByEv[ev][0];
+	}else {
+		console.log("删除("+ev+")匿名函数监听失败 或不存在");
+	}
+}
+
+</script>
+<script>
+FXC.util.addEventListener(window,'load',onLoad);
+function onLoad(){
+	var oDiv = document.getElementsByTagName('div')[0];
+	addAnonymousListener(oDiv,'click',function(){alert(this)});
+	addAnonymousListener(oDiv,'mouseover',function(){this.style.background='black'});
+	removeAnonymousEvent(oDiv,'click'); 
+	addAnonymousListener(oDiv,'click',function(){alert(this)});
+	removeAnonymousEvent(oDiv,'click'); 
+	addAnonymousListener(oDiv,'click',function(){alert(this)});
+	removeAnonymousEvent(oDiv,'click');
+}
+
+
+</Script>
+<body>
+	<div>1111111111</div>
+</body>
+</html>

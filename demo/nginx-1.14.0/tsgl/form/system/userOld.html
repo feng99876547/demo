@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+	<form method="post">
+		<input type="hidden" name="id"></input>
+		<table>
+			<tr>
+				<td class="field">账号:</td>
+				<td><input type="text" name="loginName"></input></td>
+			</tr>
+			<tr>
+				<td class="field">密码:</td>
+				<td>初始密码123456</td>
+			</tr>
+			<tr>
+				<td class="field">名字:</td>
+				<td><input type="text" name="name"></input></td>
+			</tr>
+ 			<tr>
+				<td class="field">宿舍分配:</td>
+				<td><input type="text" class="easyui-combobox" name="dormitoryId"></input></td>
+			</tr>
+			<tr>
+				<td class="field">学生证:</td>
+				<td><input type="text" name="number"></input></td>
+			</tr>
+			<tr>
+				<td class="field">头像:</td>
+				<td>
+					<input type="text" readonly="readonly" name="imgUrl">
+					<div data-type="uploadImage" data-url="/upload/image.do" data-imagesName="id" data-container="userHTMl_upload"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="field">院系:</td>
+				<td><input type="text" name="faculty"></input></td>
+			</tr>
+			<tr>
+				<td class="field">电话:</td>
+				<td><input name="cellPhone"></input></td>
+			</tr>
+			<tr>
+				<td class="field">性别:</td>
+				<td>
+					<input name="xb" type="radio" value="1"  />男
+					<input name="xb" type="radio" value="2" checked />女
+				</td>
+			</tr>
+			<tr>
+				<td class="field">地址:</td>
+				<td><input type="text" name="dz"></input></td>
+			</tr>
+			<tr>
+				<td class="field">政治面貌:</td>
+				<td><input type="text" name="zzmm"></input></td>
+			</tr>
+			<tr>
+				<td class="field">身份证:</td>
+				<td><input type="text" name="sfz"></input></td>
+			</tr>
+			<tr>
+				<td class="field">专业:</td>
+				<td><input type="text" name="zy"></input></td>
+			</tr>
+			<tr>
+				<td class="field">状态：</td>
+				<td><label><input name="status" type="radio" value="0" checked />新建</label>
+					<label><input name="status" type="radio" value="5"  />可用</label>
+					 <label><input name="status" type="radio" value="10" checked />不可用 </label>
+				</td>
+			</tr>
+			<tr>
+				<td class="field">备注:</td>
+				<td><textarea name="remarks"></textarea></td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

@@ -1,0 +1,18 @@
+
+.datagrid-cell,
+.datagrid-cell-group,
+.datagrid-header-rownumber,
+.datagrid-cell-rownumber {
+  margin: 0;
+  padding: 0 4px;
+  white-space: nowrap;
+  word-wrap: normal;
+  overflow-y: hidden;
+  height: 18px;
+  line-height: 18px;
+  font-size: 13px;
+}
+
+.datagrid-header-row, .datagrid-row {
+    height: 26px;
+}

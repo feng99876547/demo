@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript">
+    var person={};
+
+//     [[Configurable]]:表示能否通过delete删除属性从而重新定义属性，默认为true。
+
+// 　　　[[Enumerable]]:表示能否通过for-in循环来返回属性。默认为true。
+
+// 　　　[[Writable]]:表示能否修改属性的值。默认为true。
+
+// 　　　[[Value]]:包含这个属性的值。默认为undefined。
+/**    Object.defineProperty(person,"name",{
+        writable:false,
+        value:"Tom"
+    });
+    console.log(person.name);
+    delete person.name;//Writable false 删除失败
+    console.log(person.name);
+
+    function createPerson(name,age,job){
+        var o=new Object();//这可以当构造函数使用 先声明在初始化属性
+        o.name=name;
+        o.age=age;
+        o.job=job;
+        o.sayName=function(){
+            alert(this.name);//this指的是o
+        }
+        return o;
+    }
+   var person1=createPerson("Tom",23,"web前端工程师");
+   person1.sayName();
+
+    function Person(){};
+    Person.prototype={
+        constructor:Person,
+        name:"Tom",
+        age:23,
+        job:"web前端工程师",
+        sayName:function(){
+            alert(this.name);
+        }
+    }
+    var person1=new Person();
+    var person2=new Person();
+    person1.name="Mike";
+    console.log(person1.name);
+    console.log(person2.name);
+
+    //借用构造函数　
+    function SuperType(){
+        this.colors=["red","blue","green"];
+    }
+    function SubType(){//这边借用的是SuperType 而不是instance1 instance1new出来的是一个新对象和SuperType没有关系
+        SuperType.call(this)//或者apply()
+    }
+    var instance1=new SubType();
+    instance1.colors.push("black");
+    console.log(instance1.colors);
+    var instance2=new SubType();
+    console.log(instance2.colors);
+
+    //组合继承
+    function SuperType(name,colors){
+        this.name=name;
+        this.colors=colors;
+    };
+    SuperType.prototype.sayName=function(){
+        console.log(this.name);
+    };
+    function SubType(age,name,colors){
+        SuperType.call(this,name,colors);
+        this.age=age;
+    };
+    SubType.prototype=new SuperType();
+    SubType.prototype.sayAge=function()
+    {
+        console.log(this.age);
+    };
+    var person1=new SubType(23,"Tom",["blue","red","green"]);
+    console.log(person1.colors);//来自父对象构造函数
+    console.log(person1.name);//来自父对象构造函数
+    person1.sayName();//来自父原型对象
+    console.log(person1.age);//来自子对象构造函数
+    person1.sayAge();//来自子原型对象
+
+    //原型式继承
+    function object (o)//这个o相当于父对象实例
+    {
+        function F(){}//这个F相当子对象
+        F.prototype=o;//继承
+        return new F();//实例化传出
+    }
+
+    //寄生式继承
+    function object (o)//这个o相当于父对象实例
+    {
+        function F(){}//这个F相当子对象
+        F.prototype=o;//继承
+        return new F();//实例化传出
+    }
+    function createAnother(o)
+    {
+        var clone=object(o);
+        clone.sayName=function()
+        {
+            alert(this.name)
+        };
+        return clone;
+    }
+    var person={
+        name:"Tom",
+        age:23
+    }
+    var anotherPerson=createAnother(person);
+    alert(anotherPerson.name);
+*/
+    //组合寄生式继承
+
+    function object (o)//这个o相当于父对象实例
+    {
+        function F(){}//这个F相当子对象
+        F.prototype=o;//继承
+        return new F();//实例化传出
+    }
+    function inheritPrototype(subType,superType)
+    {
+        var prototype=object(superType.prototype);//创建对象
+        prototype.construct=subType;//增强对象
+        subType.prototype=prototype;//指定对象
+    }
+
+    function SuperType(name)
+    {
+        this.age;
+        this.name=name;
+    }
+    SuperType.prototype.sayName=function()
+    {   
+        alert(this.name);
+    }
+    
+    function SubType(name,age)
+    {
+        this.age=age;
+    }
+
+
+
+    inheritPrototype(SubType,SuperType);
+    
+
+    SubType.prototype.sayAge=function(){
+        alert(this.age);
+    }
+    function test(name,age){
+        var aa = new SubType(name,age);
+        console.log(aa.sayName());
+        aa.sayAge();
+    }
+    var ppp=new test("Tom",23);
+    // var person1=new SubType("Tom",23);
+//     person1.sayName();
+// 　　 person1.sayAge();
+</script>
+</head>
+<body>
+ssss
+</body>
+</html>

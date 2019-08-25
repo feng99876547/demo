@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<form method="post" >
+	<input type="hidden" name="id">
+	<table>
+		<tr>
+			<td class="field">名称:</td>
+			<td><input type="text" name="name"></input></td>
+		</tr>
+		<tr>
+			<td class="field">权限字符:</td>
+			<td><input type="text" name="permission" class="w150"></input></td>
+		</tr>
+		<tr>
+			<td class="field">描述:</td>
+			<td><textarea name="description" class="w150"></textarea></td>
+		</tr>
+		<tr>
+			<td class="field">权限类型：</td>
+			<td><label><input name="type" type="radio" value="0"
+					checked />操作权限</label>
+					<label><input name="type" type="radio"
+					value="1" checked />套餐权限 </label></td>
+		</tr>
+		<tr>
+			<td class="field">状态：</td>
+			<td><label><input name="status" type="radio"
+					value="1" checked />可用</label> <label><input name="status"
+					type="radio" value="0" checked />不可用 </label></td>
+		</tr>
+	</table>
+</form>
+</body>
+</html>

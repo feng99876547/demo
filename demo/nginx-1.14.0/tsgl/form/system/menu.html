@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+
+	<form method="post">
+		<input type="hidden" name="id"> <input type="hidden" name="menuType"></input>
+		<table>
+			<tr>
+				<td class="field">父节点:</td>
+				<td><select name="parentId" disabled="disabled"></select></td>
+			</tr>
+			<tr>
+				<td class="field">菜单名称:</td>
+				<td><input type="text" name="name"></input></td>
+			</tr>
+			<tr>
+				<td class="field">菜单图标:</td>
+				<td><i class="fa"></i><a href="javascript:;" class="choose-icon-btn">设置图标</a><input type="hidden" name="icon"></input></td>
+			</tr>
+			<tr>
+				<td class="field">URL:</td>
+				<td><input type="text" name="url" class="w200"></input></td>
+			</tr>
+			<tr>
+				<td class="field">对应权限:</td>
+				<td><input type="text" name="permission" class="w200"></input></td>
+				<!-- <td><select name="permission"></select> <span class="explain"></span></td> -->
+			</tr>
+			<tr>
+				<td class="field">位置:</td>
+				<td><input type="text" name="position" class="w40"></input></td>
+			</tr>
+			<tr>
+				<td class="field">状态:</td>
+				<td><label><input name="status" type="radio" value="1" />可用</label> <label><input name="status" type="radio" value="0" />不可用 </label></td>
+			</tr>
+		</table>
+	</form>
+	
+	
+</body>
+</html>

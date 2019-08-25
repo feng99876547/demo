@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<script type="text/javascript">
+var url = location.search;
+var request = new Object();
+if (url.indexOf("?") != -1) {
+  var str = url.substr(1);
+  strs = str.split("&");
+  for(var i = 0; i < strs.length; i ++) {
+     request[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+  }
+}
+
+window.onload=function(){
+	if(request.id){
+		debugger;
+		var xmlHttp =null;
+		var strInnerHTML = null;
+		var url = 'http://'+location.host+'/tsgl/login/getContext.do?id='+request.id;
+		try{
+			if(window.ActiveXObject){
+				xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+			}else if(window.XMLHttpRequest){
+				xmlHttp = new XMLHttpRequest();
+			}
+		}catch(e){
+			alert("晕");
+		}
+		//xmlHttp.open("get",url,true);
+		xmlHttp.open("get",url,false);
+		xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+		xmlHttp.onreadystatechange = function (){
+			if(xmlHttp.readyState == 4){
+				if(xmlHttp.status == 200){
+					try{
+						if(xmlHttp.responseText)
+							document.body.innerHTML=xmlHttp.responseText;
+						else
+							document.body.innerHTML = "对不起该文章不存在";
+					}catch(e){
+						console.log("----------error----------");
+						console.log(e);
+					}
+				}else{
+					if(faultFN) faultFN(xmlHttp);
+				}
+			}
+		};
+		//xmlHttp.send(null);
+		xmlHttp.send("_dc="+new Date().getTime());
+	}
+}
+</script>
+<body>
+	没有数据
+</body>
+</html>

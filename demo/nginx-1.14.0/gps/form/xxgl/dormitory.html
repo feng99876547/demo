@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+	<form method="post">
+		<input type="hidden" name="id"></input>
+		<table>
+			<tr>
+				<td class="field" style="width:70px;text-align:right;">楼号:</td>
+				<td><input type="text" name="lou" style="width:224px;"></input></td>
+			</tr>
+			<tr>
+				<td class="field" style="width:70px;text-align:right;">楼层:</td>
+				<td><input type="text" name="ceng" style="width:224px;"></input></td>
+			</tr>
+			<tr>
+				<td class="field" style="width:70px;text-align:right;">宿舍编号:</td>
+				<td><input type="text" name="code" style="width:224px;"></input></td>
+			</tr>
+			<tr>
+				<td class="field" style="width:70px;text-align:right;">男/女:</td>
+				<td>
+					<!-- 初始化form时把默认值清掉了 -->
+					<input name="type" type="radio" value="1" />男
+					<input name="type" type="radio" value="2" />女
+				</td>
+			</tr>
+			<tr>
+				<td class="field" style="width:70px;text-align:right;">满员:</td>
+				<td><input type="text" name="zdrs" style="width:224px;"></input></td>
+			</tr>
+			<tr>
+				<td class="field" style="width:70px;text-align:right;">已住:</td>
+				<td><input type="text" name="yzrs" style="width:224px;" value="0"></input></td>
+			</tr>
+			<tr>
+				<td class="field" style="width:70px;text-align:right;">剩余:</td>
+				<td><input type="text" name="syrs" style="width:224px;" value="0"></input></td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

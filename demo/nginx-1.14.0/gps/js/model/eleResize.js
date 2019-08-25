@@ -1,0 +1,109 @@
+FXC.ns("FXC");
+/** 窗口自适应大小 */
+FXC.EleResize = {
+	    _handleResize: function (e) {
+	        var ele = e.target || e.srcElement;
+	        var trigger = ele.__resizeTrigger__;
+	        if (trigger) {
+	            var handlers = trigger.__z_resizeListeners;
+	            if (handlers) {
+	                var size = handlers.length;
+	                for (var i = 0; i < size; i++) {
+	                    var h = handlers[i];
+	                    var handler = h.handler;
+	                    var context = h.context;
+	                    handler.apply(context, [e]);
+	                }
+	            }
+	        }
+	    },
+	    _removeHandler: function (ele, handler, context) {
+	        var handlers = ele.__z_resizeListeners;
+	        if (handlers) {
+	            var size = handlers.length;
+	            for (var i = 0; i < size; i++) {
+	                var h = handlers[i];
+	                if (h.handler === handler && h.context === context) {
+	                    handlers.splice(i, 1);
+	                    return;
+	                }
+	            }
+	        }
+	    },
+	    _createResizeTrigger: function (ele) {
+	        var obj = document.createElement('object');
+	        obj.setAttribute('style',
+	            'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden;opacity: 0; pointer-events: none; z-index: -1;');
+	        obj.onload = FXC.EleResize._handleObjectLoad;
+	        obj.type = 'text/html';
+	        ele.appendChild(obj);
+	        obj.data = 'about:blank';
+	        return obj;
+	    },
+	    _handleObjectLoad: function (evt) {
+	        this.contentDocument.defaultView.__resizeTrigger__ = this.__resizeElement__;
+	        this.contentDocument.defaultView.addEventListener('resize', FXC.EleResize._handleResize);
+	    }
+	};
+	if (document.attachEvent) {//ie9-10
+	    FXC.EleResize.on = function (ele, handler, context) {
+	        var handlers = ele.__z_resizeListeners;
+	        if (!handlers) {
+	            handlers = [];
+	            ele.__z_resizeListeners = handlers;//定义一个__z_resizeListeners属性指向handler数组
+	            ele.__resizeTrigger__ = ele;//定义一个__resizeTrigger__指向dom元素
+	            ele.attachEvent('onresize', FXC.EleResize._handleResize);
+	        }
+	        handlers.push({
+	            handler: handler,
+	            context: context
+	        });
+	    };
+	    FXC.EleResize.off = function (ele, handler, context) {
+	        var handlers = ele.__z_resizeListeners;
+	        if (handlers) {
+	            FXC.EleResize._removeHandler(ele, handler, context);
+	            if (handlers.length === 0) {
+	                ele.detachEvent('onresize', FXC.EleResize._handleResize);
+	                delete  ele.__z_resizeListeners;
+	            }
+	        }
+	    }
+	} else {
+	    FXC.EleResize.on = function (ele, handler, context) {
+	        var handlers = ele.__z_resizeListeners;
+	        if (!handlers) {
+	            handlers = [];
+	            ele.__z_resizeListeners = handlers;
+
+	            if (getComputedStyle(ele, null).position === 'static') {
+	                ele.style.position = 'relative';
+	            }
+	            //ele 添加了一个子元素obj type = text/html 当ele大小改变时触发obj的onresize 事件
+	            //obj 加载时   resize事件添加了监听handler 所以触发了handler
+	            var obj = FXC.EleResize._createResizeTrigger(ele);
+	            ele.__resizeTrigger__ = obj;
+	            obj.__resizeElement__ = ele;
+	        }
+	        handlers.push({
+	            handler: handler,
+	            context: context
+	        });
+	    };
+	    FXC.EleResize.off = function (ele, handler, context) {
+	        var handlers = ele.__z_resizeListeners;
+	        if (handlers) {
+	            FXC.EleResize._removeHandler(ele, handler, context);
+	            if (handlers.length === 0) {
+	                var trigger = ele.__resizeTrigger__;
+	                if (trigger) {
+	                    trigger.contentDocument.defaultView.removeEventListener('resize', FXC.EleResize._handleResize);
+	                    ele.removeChild(trigger);
+	                    delete ele.__resizeTrigger__;
+	                }
+	                delete  ele.__z_resizeListeners;
+	            }
+	        }
+	    }
+	}
+

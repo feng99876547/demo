@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	 <jmxConfigurator /> 
+	<!-- 控制台输出 -->
+	<!-- <property name="log.path" value="D:\\logs\\" /> -->
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>
+				%d [%thread] [%X{ip}] %-5level %logger{36} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+	<appender name="console2" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>
+				%d [%X{ip}] - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="rollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>
+			logs/log.log
+		</file>
+		<!-- 每天生成一个日志文件 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>
+				logs/log.%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<pattern>
+				%d [%thread] [%X{ip}] %-5level %logger{36} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+	
+	 <!-- 日志文件输出 
+	<appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${log.base}/${log.moduleName}.log</File>
+		设置日志不超过${log.max.size}时的保存路径，注意如果 是web项目会保存到Tomcat的bin目录 下
+		滚动记录文件，先将日志记录到指定文件，当符合某个条件时，将日志记录到其他文件。
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${log.base}/archive/${log.moduleName}_all_%d{yyyy-MM-dd}.%i.log.zip
+			</FileNamePattern>
+			当天的日志大小 超过${log.max.size}时,压缩日志并保存
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>${log.max.size}</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		日志输出的文件的格式 
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread]%logger{56}.%method\(\):%L -%msg%n</pattern>
+		</layout>
+	</appender>-->
+	
+	<appender name="businessLogFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>
+			logs/business.log
+		</file>
+		<!-- 每天生成一个日志文件 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>
+				logs/business.%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+		</rollingPolicy>
+		<!-- 独立的pattern -->
+		<encoder>
+			<pattern>
+				%d [%thread] [%X{ip}] - %msg%n
+			</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印INFO日志 -->  
+            <level>INFO</level>  
+            <onMatch>ACCEPT</onMatch>  
+            <onMismatch>DENY</onMismatch>  
+        </filter>
+	</appender>
+	
+	<appender name="syndataLogFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>
+			logs/syndata.log
+		</file>
+		<!-- 每天生成一个日志文件 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>
+				logs/syndata.%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+		</rollingPolicy>
+		<!-- 独立的pattern -->
+		<encoder>
+			<pattern>
+				%d [%X{ip}] - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="allerrorLogFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>
+			logs/allerror.log
+		</file>
+		<!-- 每天生成一个日志文件 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>
+				logs/allerror.%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+		</rollingPolicy>
+		<!-- 独立的pattern -->
+		<encoder>
+			<pattern>
+				%d [%thread] [%X{ip}] - %msg%n
+			</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印INFO日志 -->  
+            <level>ERROR</level>  
+            <onMatch>ACCEPT</onMatch>  
+            <onMismatch>DENY</onMismatch>  
+        </filter>
+	</appender>
+	
+	<appender name="socketLogFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>
+			logs/socket.log
+		</file>
+		<!-- 每天生成一个日志文件 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>
+				logs/socket.%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+		</rollingPolicy>
+		<!-- 独立的pattern -->
+		<encoder>
+			<pattern>
+				%d [%thread] [%X{ip}] - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+	
+	<root level="INFO">
+		<appender-ref ref="console" />
+		<appender-ref ref="rollingFile" />
+	</root>
+	<logger name="business" level="INFO" additivity="false">
+		<appender-ref ref="console2" />
+		<appender-ref ref="businessLogFile" />
+	</logger>
+	<logger name="syndata" level="INFO" additivity="false">
+		<appender-ref ref="console2" />
+		<appender-ref ref="syndataLogFile" />
+	</logger>
+
+	<logger name="allerror" level="INFO" additivity="false">
+		<appender-ref ref="console2" />
+		<appender-ref ref="allerrorLogFile" />
+	</logger>
+	
+	<logger name="socket" level="INFO" additivity="false">
+		<appender-ref ref="console2" />
+		<appender-ref ref="socketLogFile" />
+	</logger>
+	
+</configuration>

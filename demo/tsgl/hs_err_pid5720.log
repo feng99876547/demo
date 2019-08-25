@@ -1,0 +1,128 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (malloc) failed to allocate 480104 bytes for AllocateHeap
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   In 32 bit mode, the process size limit was hit
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Use 64 bit Java on a 64 bit OS
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (memory/allocation.inline.hpp:62), pid=5720, tid=6424
+#
+# JRE version:  (8.0_25-b18) (build )
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (25.25-b02 mixed mode windows-amd64 compressed oops)
+# Failed to write core dump. Minidumps are not enabled by default on client versions of Windows
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x00000000028c3800):  JavaThread "Unknown thread" [_thread_in_vm, id=6424, stack(0x0000000002700000,0x0000000002800000)]
+
+Stack: [0x0000000002700000,0x0000000002800000]
+[error occurred during error reporting (printing stack bounds), id 0xc0000005]
+
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x31667a]
+V  [jvm.dll+0x267073]
+V  [jvm.dll+0x267cb3]
+V  [jvm.dll+0x288154]
+C  [KERNELBASE.dll+0xdc3e2]
+C  [ntdll.dll+0xa8114]
+C  [ntdll.dll+0x8988f]
+C  [ntdll.dll+0x9a77d]
+C  [ntdll.dll+0x429fb]
+C  [ntdll.dll+0x9993e]
+V  [jvm.dll+0x206881]
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+
+Other Threads:
+
+=>0x00000000028c3800 (exited) JavaThread "Unknown thread" [_thread_in_vm, id=6424, stack(0x0000000002700000,0x0000000002800000)]
+
+VM state:not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+GC Heap History (0 events):
+No events
+
+Deoptimization events (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+Events (0 events):
+No events
+
+
+Dynamic libraries:
+0x00007ff774df0000 - 0x00007ff774e24000 	C:\Program Files\Java\jdk1.8.0_25\bin\javaw.exe
+0x00007ffb1e900000 - 0x00007ffb1eaa9000 	C:\windows\SYSTEM32\ntdll.dll
+0x00007ffb1c3e0000 - 0x00007ffb1c519000 	C:\windows\system32\KERNEL32.DLL
+0x00007ffb1bda0000 - 0x00007ffb1beae000 	C:\windows\system32\KERNELBASE.dll
+0x00007ffb1e4f0000 - 0x00007ffb1e595000 	C:\windows\system32\ADVAPI32.dll
+0x00007ffb1e5a0000 - 0x00007ffb1e711000 	C:\windows\system32\USER32.dll
+0x00007ffb19a30000 - 0x00007ffb19c8a000 	C:\windows\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.9600.16384_none_62475f7becb72503\COMCTL32.dll
+0x00007ffb1e020000 - 0x00007ffb1e0c7000 	C:\windows\system32\msvcrt.dll
+0x00007ffb1c190000 - 0x00007ffb1c1e7000 	C:\windows\SYSTEM32\sechost.dll
+0x00007ffb1c530000 - 0x00007ffb1c666000 	C:\windows\system32\RPCRT4.dll
+0x00007ffb1dbe0000 - 0x00007ffb1dd25000 	C:\windows\system32\GDI32.dll
+0x00007ffb1c680000 - 0x00007ffb1c6b4000 	C:\windows\system32\IMM32.DLL
+0x00007ffb1c1f0000 - 0x00007ffb1c329000 	C:\windows\system32\MSCTF.dll
+0x000000005f480000 - 0x000000005f552000 	C:\Program Files\Java\jdk1.8.0_25\jre\bin\msvcr100.dll
+0x000000005f950000 - 0x00000000601aa000 	C:\Program Files\Java\jdk1.8.0_25\jre\bin\server\jvm.dll
+0x00007ffb17330000 - 0x00007ffb17339000 	C:\windows\SYSTEM32\WSOCK32.dll
+0x00007ffb18d60000 - 0x00007ffb18d7f000 	C:\windows\SYSTEM32\WINMM.dll
+0x00007ffb1c520000 - 0x00007ffb1c527000 	C:\windows\system32\PSAPI.DLL
+0x00007ffb1e430000 - 0x00007ffb1e488000 	C:\windows\system32\WS2_32.dll
+0x00007ffb18c50000 - 0x00007ffb18c7a000 	C:\windows\SYSTEM32\WINMMBASE.dll
+0x00007ffb1db70000 - 0x00007ffb1db79000 	C:\windows\system32\NSI.dll
+0x00007ffb1bd50000 - 0x00007ffb1bd9a000 	C:\windows\SYSTEM32\cfgmgr32.dll
+0x00007ffb1ab10000 - 0x00007ffb1ab36000 	C:\windows\SYSTEM32\DEVOBJ.dll
+0x000000005f860000 - 0x000000005f86f000 	C:\Program Files\Java\jdk1.8.0_25\jre\bin\verify.dll
+0x000000005f830000 - 0x000000005f858000 	C:\Program Files\Java\jdk1.8.0_25\jre\bin\java.dll
+0x000000005f810000 - 0x000000005f826000 	C:\Program Files\Java\jdk1.8.0_25\jre\bin\zip.dll
+0x00007ffb141a0000 - 0x00007ffb14328000 	C:\windows\SYSTEM32\dbghelp.dll
+
+VM Arguments:
+jvm_args: -Dfile.encoding=UTF-8 
+java_command: com.sjb.service.EHCache
+java_class_path (initial): D:\eclipse2\java\tsgl\build\classes;D:\开发工具\apache-tomcat-8.0.30\lib\annotations-api.jar;D:\开发工具\apache-tomcat-8.0.30\lib\catalina-ant.jar;D:\开发工具\apache-tomcat-8.0.30\lib\catalina-ha.jar;D:\开发工具\apache-tomcat-8.0.30\lib\catalina-storeconfig.jar;D:\开发工具\apache-tomcat-8.0.30\lib\catalina-tribes.jar;D:\开发工具\apache-tomcat-8.0.30\lib\catalina.jar;D:\开发工具\apache-tomcat-8.0.30\lib\ecj-4.4.2.jar;D:\开发工具\apache-tomcat-8.0.30\lib\el-api.jar;D:\开发工具\apache-tomcat-8.0.30\lib\jasper-el.jar;D:\开发工具\apache-tomcat-8.0.30\lib\jasper.jar;D:\开发工具\apache-tomcat-8.0.30\lib\jsp-api.jar;D:\开发工具\apache-tomcat-8.0.30\lib\servlet-api.jar;D:\开发工具\apache-tomcat-8.0.30\lib\tomcat-api.jar;D:\开发工具\apache-tomcat-8.0.30\lib\tomcat-coyote.jar;D:\开发工具\apache-tomcat-8.0.30\lib\tomcat-dbcp.jar;D:\开发工具\apache-tomcat-8.0.30\lib\tomcat-i18n-es.jar;D:\开发工具\apache-tomcat-8.0.30\lib\tomcat-i18n-fr.jar;D:\开发工具\apache-tomcat-8.0.30\lib\tomcat-i18n-ja.jar;D:\开发工具\apache-tomcat-8.0.30\lib\tomcat-jdbc.jar;D:\开发工具\apache-tomcat-8.0.30\lib\tomcat-jni.jar;D:\开发工具\apache-tomcat-8.0.30\lib\tomcat-util-scan.jar;D:\开发工具\apache-tomcat-8.0.30\lib\tomcat-util.jar;D:\开发工具\apache-tomcat-8.0.30\lib\tomcat-websocket.jar;D:\开发工具\apache-tomcat-8.0.30\lib\websocket-api.jar;D:\eclipse2\java\tsgl\WebContent\WEB-INF\lib\activemq-amqp-5.8.0.jar;D:\eclipse2\java\tsgl\WebContent\WEB-INF\lib\activemq-broker-5.8.0.jar;D:\eclipse2\java\tsgl\WebContent\WEB-INF\lib\activemq-client-5.8.0.jar;D:\eclipse2\java\tsgl\WebContent\WEB-INF\lib\activemq-openwire-legacy-5.8.0.jar;D:\eclipse2\java\tsgl\WebContent\WEB-INF\lib\antlr-2.7.7.jar;D:\eclipse2\java\tsgl\WebContent\WEB-INF\lib\aopalliance-1.0.jar;D:\eclipse2\java\tsgl\WebContent\WEB-INF\lib\aspectjweaver-1.7.1.jar;D:\eclipse2\java\tsgl\WebContent\WEB-INF\lib\bcprov-jdk15on-1.47.jar;D:\eclipse2\java\tsgl\WebContent\WEB-INF\lib\commons-beanutils-1.8.3.jar;D:\eclipse2\java\
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+JAVA_HOME=C:\Program Files\Java\jdk1.8.0_25
+CLASSPATH=.;C:\Program Files\Java\jdk1.8.0_25\lib\dt.jar;C:\Program Files\Java\jdk1.8.0_25\lib\tools.jar;
+PATH=C:/Program Files/Java/jdk1.8.0_25/bin/../jre/bin/server;C:/Program Files/Java/jdk1.8.0_25/bin/../jre/bin;C:/Program Files/Java/jdk1.8.0_25/bin/../jre/lib/amd64;C:\ProgramData\Oracle\Java\javapath;C:\Perl64\site\bin;C:\Perl64\bin;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\ ;C:\Program Files\Java\jdk1.8.0_25\bin;C:\Program Files\Java\jdk1.8.0_25\jre\bin;D:\maven\apache-maven-3.2.3\bin;C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin;C:\Perl64\bin;c:\windows\system32;D:\开发工具\eclipse2;
+USERNAME=Administrator
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 60 Stepping 3, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 8.1 , 64 bit Build 9600 
+
+CPU:total 4 (2 cores per cpu, 2 threads per core) family 6 model 60 stepping 3, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, lzcnt, ht, tsc, tscinvbit, bmi1, bmi2
+
+Memory: 4k page, physical 8298772k(3905816k free), swap 8298772k(5264k free)
+
+vm_info: Java HotSpot(TM) 64-Bit Server VM (25.25-b02) for windows-amd64 JRE (1.8.0_25-b18), built on Oct  7 2014 14:25:37 by "java_re" with MS VC++ 10.0 (VS2010)
+
+time: Sun Mar 17 19:59:22 2019
+elapsed time: 0 seconds (0d 0h 0m 0s)
+
